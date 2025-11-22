@@ -1,0 +1,58 @@
+<?php
+
+namespace App\Infrastructure\Persistence\Eloquent\Repositories;
+
+use App\Domain\Cluster\Entities\Cluster;
+use App\Domain\Cluster\Repositories\ClusterRepositoryInterface;
+use App\Infrastructure\Persistence\Eloquent\Models\ClusterModel;
+
+class EloquentClusterRepository implements ClusterRepositoryInterface
+{
+    public function all(): array
+    {
+        return ClusterModel::all()
+            ->map(fn ($m) => $this->mapToEntity($m))
+            ->toArray();
+    }
+
+    public function find(int $id): ?Cluster
+    {
+        $model = ClusterModel::find($id);
+
+        if (!$model) return null;
+
+        return $model ? $this->mapToEntity($model) : null;
+    }
+
+    public function create(array $data): Cluster
+    {
+        $model = ClusterModel::create($data);
+
+        return $this->mapToEntity($model);
+    }
+
+    public function update(int $id, array $data): ?Cluster
+    {
+        $model = ClusterModel::findOrFail($id);
+
+        if (!$model) return null;
+
+        $model->update($data);
+
+        return $this->mapToEntity($model);
+    }
+
+    public function delete(int $id): void
+    {
+        $model = ClusterModel::findOrFail($id);
+        $model->delete();
+    }
+
+    private function mapToEntity(ClusterModel $model): Cluster
+    {
+        return new Cluster(
+            id: $model->id,
+            name: $model->name
+        );
+    }
+}
