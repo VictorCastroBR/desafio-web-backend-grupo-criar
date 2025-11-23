@@ -97,8 +97,8 @@ class DiscountRepositoryTest extends TestCase
         $entity = $this->discountRepository->find($model->id);
 
         $this->assertInstanceOf(Discount::class, $entity);
-        $this->assertEquals(50.0, $model->value);
-        $this->assertNull($model->percent);
+        $this->assertEquals(50.0, $entity->value);
+        $this->assertNull($entity->percent);
         $this->assertEquals($campaign->id, $entity->campaign->id);
     }
 
@@ -135,7 +135,7 @@ class DiscountRepositoryTest extends TestCase
         $this->assertEquals(100.0, $discounts[2]->value);
     }
 
-    public function test_atualiza_uma_campanha()
+    public function test_atualiza_um_desconto()
     {
         $campaign = $this->createDependencies();
 
@@ -160,7 +160,7 @@ class DiscountRepositoryTest extends TestCase
         $this->assertEquals(20.00, $entity->percent);
     }
 
-    public function test_exclui_uma_campanha()
+    public function test_exclui_um_desconto()
     {
         $campaign = $this->createDependencies();
 

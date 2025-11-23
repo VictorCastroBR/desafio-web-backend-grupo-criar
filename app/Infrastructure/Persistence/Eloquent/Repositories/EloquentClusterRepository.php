@@ -19,8 +19,6 @@ class EloquentClusterRepository implements ClusterRepositoryInterface
     {
         $model = ClusterModel::find($id);
 
-        if (!$model) return null;
-
         return $model ? $this->mapToEntity($model) : null;
     }
 
@@ -33,7 +31,7 @@ class EloquentClusterRepository implements ClusterRepositoryInterface
 
     public function update(int $id, array $data): ?Cluster
     {
-        $model = ClusterModel::findOrFail($id);
+        $model = ClusterModel::find($id);
 
         if (!$model) return null;
 

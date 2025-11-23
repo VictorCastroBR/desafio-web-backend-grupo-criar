@@ -100,7 +100,7 @@ class ProductRepositoryTest extends TestCase
         ]);
     }
 
-    public function test_exclui_um_produt()
+    public function test_exclui_um_produto()
     {
         $model = $this->productRepository->create([
             'name' => 'Notebook Lenovo',

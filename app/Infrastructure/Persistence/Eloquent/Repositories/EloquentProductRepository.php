@@ -19,8 +19,6 @@ class EloquentProductRepository implements ProductRepositoryInterface
     {
         $model = ProductModel::find($id);
 
-        if (!$model) return null;
-
         return $model ? $this->mapToEntity($model) : null;
     }
 
@@ -33,7 +31,7 @@ class EloquentProductRepository implements ProductRepositoryInterface
 
     public function update(int $id, array $data): ?Product
     {
-        $model = ProductModel::findOrFail($id);
+        $model = ProductModel::find($id);
 
         if (!$model) return null;
 
