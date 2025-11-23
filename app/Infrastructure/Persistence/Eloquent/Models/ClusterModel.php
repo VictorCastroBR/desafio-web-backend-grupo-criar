@@ -11,6 +11,6 @@ class ClusterModel extends Model
 
     public function cities()
     {
-        return $this->hasMany(CityModel::class, 'clusters');
+        return $this->hasMany(CityModel::class, 'cluster_id');
     }
 }

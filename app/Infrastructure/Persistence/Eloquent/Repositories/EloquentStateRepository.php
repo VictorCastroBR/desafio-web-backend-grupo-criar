@@ -18,9 +18,6 @@ class EloquentStateRepository implements StateRepositoryInterface
     public function find(int $id): ?State
     {
         $model = StateModel::find($id);
-
-        if (!$model) return null;
-
         return $model ? $this->mapToEntity($model) : null;
     }
 
@@ -31,9 +28,11 @@ class EloquentStateRepository implements StateRepositoryInterface
         return $this->mapToEntity($model);
     }
 
-    public function update(int $id, array $data): State
+    public function update(int $id, array $data): ?State
     {
-        $model = StateModel::findOrFail($id);
+        $model = StateModel::find($id);
+
+        if (!$model) return null;
 
         $model->update($data);
 
@@ -42,8 +41,9 @@ class EloquentStateRepository implements StateRepositoryInterface
 
     public function delete(int $id): void
     {
-        $model = StateModel::findOrFail($id);
-        $model->delete();
+        $model = StateModel::find($id);
+        if ($model)
+            $model->delete();
     }
 
     private function mapToEntity(StateModel $model): State

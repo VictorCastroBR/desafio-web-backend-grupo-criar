@@ -5,19 +5,19 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Domain\State\Entities\State;
-use App\Infrastructure\Persistence\Eloquent\Repositories\EloquentStateRepository;
+use APP\Domain\State\Repositories\StateRepositoryInterface;
 
 class StateRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
-    private EloquentStateRepository $repository;
+    private StateRepositoryInterface $repository;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->repository = new EloquentStateRepository();
+        $this->repository = $this->app->make(StateRepositoryInterface::class);
     }
 
     public function test_cria_um_estado()

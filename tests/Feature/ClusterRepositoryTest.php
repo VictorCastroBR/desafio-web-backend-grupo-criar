@@ -5,19 +5,19 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Domain\Cluster\Entities\Cluster;
-use App\Infrastructure\Persistence\Eloquent\Repositories\EloquentClusterRepository;
+use App\Domain\Cluster\Repositories\ClusterRepositoryInterface;
 
 class ClusterRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
-    private EloquentClusterRepository $repository;
+    private ClusterRepositoryInterface $repository;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->repository = new EloquentClusterRepository();
+        $this->repository = $this->app->make(ClusterRepositoryInterface::class);
     }
 
     public function test_cria_um_cluster()
@@ -69,7 +69,6 @@ class ClusterRepositoryTest extends TestCase
 
         $updated = $this->repository->update($model->id, [
             'name' => 'Sudeste atualizado',
-            'uf' => 'SP'
         ]);
 
         $this->assertEquals('Sudeste atualizado', $updated->name);

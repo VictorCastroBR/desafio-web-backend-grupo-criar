@@ -44,8 +44,9 @@ class EloquentClusterRepository implements ClusterRepositoryInterface
 
     public function delete(int $id): void
     {
-        $model = ClusterModel::findOrFail($id);
-        $model->delete();
+        $model = ClusterModel::find($id);
+        if ($model)
+            $model->delete();
     }
 
     private function mapToEntity(ClusterModel $model): Cluster
