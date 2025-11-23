@@ -5,10 +5,12 @@ namespace App\Providers;
 use App\Domain\Campaign\Repositories\CampaignRepositoryInterface;
 use App\Domain\City\Repositories\CityRepositoryInterface;
 use App\Domain\Cluster\Repositories\ClusterRepositoryInterface;
+use App\Domain\Discount\Repositories\DiscountRepositoryInterface;
 use App\Domain\State\Repositories\StateRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\Repositories\EloquentCityRepository;
 use App\Infrastructure\Persistence\Eloquent\Repositories\EloquentCampaignRepository;
 use App\Infrastructure\Persistence\Eloquent\Repositories\EloquentClusterRepository;
+use App\Infrastructure\Persistence\Eloquent\Repositories\EloquentDiscountRepository;
 use App\Infrastructure\Persistence\Eloquent\Repositories\EloquentStateRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -34,6 +36,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             CampaignRepositoryInterface::class,
             EloquentCampaignRepository::class
+        );
+        $this->app->bind(
+            DiscountRepositoryInterface::class,
+            EloquentDiscountRepository::class
         );
     }
 

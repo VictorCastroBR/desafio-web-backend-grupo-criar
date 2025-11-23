@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Domain\State\Entities\State;
-use APP\Domain\State\Repositories\StateRepositoryInterface;
+use App\Domain\State\Repositories\StateRepositoryInterface;
 
 class StateRepositoryTest extends TestCase
 {
