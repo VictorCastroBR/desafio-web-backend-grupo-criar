@@ -16,10 +16,37 @@ class EloquentCampaignRepository implements CampaignRepositoryInterface
             ->toArray();
     }
 
+    public function paginate(?int $perPage = 15): array
+    {
+        return CampaignModel::paginate($perPage)
+            ->map(fn ($model) => $this->mapToEntity($model))
+            ->toArray();
+    }
+
     public function find(int $id): ?Campaign
     {
         $model = CampaignModel::find($id);
         return $model ? $this->mapToEntity($model) : null;
+    }
+
+    public function findActiveByCluster(int $clusterId): ?Campaign
+    {
+        $model = CampaignModel::where('cluster_id', $clusterId)
+            ->where('active', true)
+            ->first();
+
+        return $model ? $this->mapToEntity($model) : null;
+    }
+
+    public function deactivateOtherCampaigns(int $clusterId, ?int $excludeId = null)
+    {
+        $query = CampaignModel::where('cluster_id', $clusterId)
+            ->where('active', true);
+
+        if ($excludeId)
+            $query->where('id', '!=', $excludeId);
+
+        $query->update(['active' => false]);
     }
 
     public function create(array $data): Campaign

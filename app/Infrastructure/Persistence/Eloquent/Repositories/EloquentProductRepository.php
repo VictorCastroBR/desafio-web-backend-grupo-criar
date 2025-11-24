@@ -15,6 +15,13 @@ class EloquentProductRepository implements ProductRepositoryInterface
             ->toArray();
     }
 
+    public function paginate(int $perPage = 15): array
+    {
+        return ProductModel::paginate($perPage)
+            ->map(fn ($model) => $this->mapToEntity($model))
+            ->toArray();
+    }
+
     public function find(int $id): ?Product
     {
         $model = ProductModel::find($id);

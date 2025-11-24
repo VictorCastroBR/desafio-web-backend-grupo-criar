@@ -17,6 +17,13 @@ class EloquentCityRepository implements CityRepositoryInterface
             ->toArray();
     }
 
+    public function paginate(?int $perPage = 15): array
+    {
+        return CityModel::paginate($perPage)
+            ->map(fn ($model) => $this->mapToEntity($model))
+            ->toArray();
+    }
+
     public function find(int $id): ?City
     {
         $model = CityModel::find($id);

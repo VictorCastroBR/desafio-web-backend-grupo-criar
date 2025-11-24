@@ -17,6 +17,13 @@ class EloquentDiscountRepository implements DiscountRepositoryInterface
             ->toArray();
     }
 
+    public function paginate(int $perPage = 15): array
+    {
+        return DiscountModel::paginate($perPage)
+            ->map(fn ($model) => $this->mapToEntity($model))
+            ->toArray();
+    }
+
     public function find(int $id): ?Discount
     {
         $model = DiscountModel::find($id);

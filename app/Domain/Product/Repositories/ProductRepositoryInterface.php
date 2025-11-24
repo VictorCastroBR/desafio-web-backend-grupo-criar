@@ -8,6 +8,7 @@ interface ProductRepositoryInterface
 {
     public function all(): array;
     public function find(int $id): ?Product;
+    public function paginate(int $perPage = 15): array;
     public function create(array $data): Product;
     public function update(int $id, array $data): ?Product;
     public function delete(int $id): void;

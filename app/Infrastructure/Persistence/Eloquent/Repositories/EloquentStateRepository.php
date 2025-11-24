@@ -21,6 +21,13 @@ class EloquentStateRepository implements StateRepositoryInterface
         return $model ? $this->mapToEntity($model) : null;
     }
 
+    public function paginate(int $perPage = 15): array
+    {
+        return StateModel::paginate($perPage)
+            ->map(fn ($model) => $this->mapToEntity($model))
+            ->toArray();
+    }
+
     public function create(array $data): State
     {
         $model = StateModel::create($data);
