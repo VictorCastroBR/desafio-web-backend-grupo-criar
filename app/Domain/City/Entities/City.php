@@ -8,9 +8,9 @@ use App\Domain\State\Entities\State;
 class City
 {
     public function __construct(
-        public int $id,
-        public string $name,
-        public State $state,
-        public Cluster $cluster,
+        public readonly int $id,
+        public readonly string $name,
+        public readonly State $state,
+        public readonly Cluster $cluster,
     ) {}
 }
