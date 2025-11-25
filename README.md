@@ -223,3 +223,19 @@ app/
 * **Versionamento de API:** Prefixo `/v1` para facilitar evolução
 * **Testes:** Cobertura de repositórios e regras de negócio críticas
 * **Docker:** Ambiente isolado e replicável
+
+## Ferramentas e Metodologia
+
+**Uso de IA (Claude - Sonnet 4.5)**
+
+Utilizei IA de forma estratégica para acelerar tarefas repetitivas:
+
+1. **Eloquent Repositories:** Após implementar o primeiro manualmente como referência, usei IA para replicar o padrão nos demais (fornecendo entity e interface). Todos foram validados com testes.
+
+2. **Documentação da API:** Tabelação de endpoints a partir de `route:list`.
+
+**Desenvolvido manualmente:**
+- Arquitetura DDD completa
+- Regras de negócio e validações
+- Services, Controllers, Requests, Resources etc
+- Testes de regras cŕiticas
