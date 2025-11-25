@@ -45,7 +45,7 @@ class DiscountServiceTest extends TestCase
         $campaign = $this->createDependencies();
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Cannot provide both value and percent');
+        $this->expectExceptionMessage('Não é possível fornecer valor e percentual simultaneamente');
 
         $this->discountService->createDiscount([
             'value' => 50.0,
@@ -59,7 +59,7 @@ class DiscountServiceTest extends TestCase
         $campaign = $this->createDependencies();
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Either value or percent must be provided');
+        $this->expectExceptionMessage('É necessário fornecer valor ou percentual');
 
         $this->discountService->createDiscount([
             'value' => null,
@@ -117,7 +117,7 @@ class DiscountServiceTest extends TestCase
         ]);
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Cannot provide both value and percent');
+        $this->expectExceptionMessage('Não é possível fornecer valor e percentual simultaneamente');
 
         $this->discountService->updateDiscount($discount->id, [
             'value' => 100.0,

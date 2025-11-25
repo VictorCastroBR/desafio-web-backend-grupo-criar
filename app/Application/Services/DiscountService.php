@@ -58,9 +58,9 @@ class DiscountService
         $hasPercent = isset($data['percent']) && $data['percent'] !== null;
 
         if ($hasValue && $hasPercent)
-            throw new \InvalidArgumentException('Cannot provide both value and percent');
+            throw new \InvalidArgumentException('Não é possível fornecer valor e percentual simultaneamente');
 
         elseif (!$hasValue && !$hasPercent)
-            throw new \InvalidArgumentException('Either value or percent must be provided');
+            throw new \InvalidArgumentException('É necessário fornecer valor ou percentual');
     }
 }
