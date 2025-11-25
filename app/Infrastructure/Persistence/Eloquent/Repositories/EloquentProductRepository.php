@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Eloquent\Repositories;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Domain\Product\Entities\Product;
 use App\Domain\Product\Repositories\ProductRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\Models\ProductModel;
@@ -15,11 +16,10 @@ class EloquentProductRepository implements ProductRepositoryInterface
             ->toArray();
     }
 
-    public function paginate(int $perPage = 15): array
+    public function paginate(int $perPage = 15): LengthAwarePaginator
     {
         return ProductModel::paginate($perPage)
-            ->map(fn ($model) => $this->mapToEntity($model))
-            ->toArray();
+            ->through(fn ($model) => $this->mapToEntity($model));
     }
 
     public function find(int $id): ?Product

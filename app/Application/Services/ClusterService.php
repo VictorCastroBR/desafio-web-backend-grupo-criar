@@ -2,6 +2,7 @@
 
 namespace App\Application\Services;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Domain\Cluster\Entities\Cluster;
 use App\Domain\Cluster\Repositories\ClusterRepositoryInterface;
 
@@ -16,7 +17,7 @@ class ClusterService
         return $this->clusterRepository->all();
     }
 
-    public function getPaginatedClusters(?int $perPage = 15): array
+    public function getPaginatedClusters(?int $perPage = 15): LengthAwarePaginator
     {
         return $this->clusterRepository->paginate($perPage);
     }

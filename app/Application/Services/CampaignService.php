@@ -2,6 +2,7 @@
 
 namespace App\Application\Services;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Domain\Campaign\Entities\Campaign;
 use App\Domain\Campaign\Repositories\CampaignRepositoryInterface;
 
@@ -16,7 +17,7 @@ class CampaignService
         return $this->campaignRepository->all();
     }
 
-    public function getPaginatedCampaigns(?int $perPage = 15): array
+    public function getPaginatedCampaigns(?int $perPage = 15): LengthAwarePaginator
     {
         return $this->campaignRepository->paginate($perPage);
     }

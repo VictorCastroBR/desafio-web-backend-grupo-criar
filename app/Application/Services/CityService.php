@@ -2,6 +2,7 @@
 
 namespace App\Application\Services;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Domain\City\Entities\City;
 use App\Domain\City\Repositories\CityRepositoryInterface;
 
@@ -16,7 +17,7 @@ class CityService
         return $this->cityRepository->all();
     }
 
-    public function getPaginatedCities(?int $perPage = 15): array
+    public function getPaginatedCities(?int $perPage = 15): LengthAwarePaginator
     {
         return $this->cityRepository->paginate($perPage);
     }

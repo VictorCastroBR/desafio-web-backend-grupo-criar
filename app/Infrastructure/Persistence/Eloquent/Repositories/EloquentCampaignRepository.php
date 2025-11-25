@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Eloquent\Repositories;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Domain\Campaign\Entities\Campaign;
 use App\Domain\Campaign\Repositories\CampaignRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\Models\CampaignModel;
@@ -16,11 +17,10 @@ class EloquentCampaignRepository implements CampaignRepositoryInterface
             ->toArray();
     }
 
-    public function paginate(?int $perPage = 15): array
+    public function paginate(?int $perPage = 15): LengthAwarePaginator
     {
         return CampaignModel::paginate($perPage)
-            ->map(fn ($model) => $this->mapToEntity($model))
-            ->toArray();
+            ->through(fn ($model) => $this->mapToEntity($model));
     }
 
     public function find(int $id): ?Campaign
@@ -80,7 +80,7 @@ class EloquentCampaignRepository implements CampaignRepositoryInterface
         return new Campaign(
             id: $model->id,
             name: $model->name,
-            active: $model->active,
+            active: (bool) $model->active,
             cluster: new Cluster(
                 id: $model->cluster->id,
                 name: $model->cluster->name

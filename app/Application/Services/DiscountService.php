@@ -2,6 +2,7 @@
 
 namespace App\Application\Services;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Domain\Discount\Entities\Discount;
 use App\Domain\Discount\Repositories\DiscountRepositoryInterface;
 
@@ -16,7 +17,7 @@ class DiscountService
         return $this->discountRepository->all();
     }
 
-    public function getPaginatedDiscounts(?int $perPage = 15): array
+    public function getPaginatedDiscounts(?int $perPage = 15): LengthAwarePaginator
     {
         return $this->discountRepository->paginate($perPage);
     }

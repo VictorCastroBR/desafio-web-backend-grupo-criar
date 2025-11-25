@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Eloquent\Repositories;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Domain\Cluster\Entities\Cluster;
 use App\Domain\Cluster\Repositories\ClusterRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\Models\ClusterModel;
@@ -13,6 +14,12 @@ class EloquentClusterRepository implements ClusterRepositoryInterface
         return ClusterModel::all()
             ->map(fn ($m) => $this->mapToEntity($m))
             ->toArray();
+    }
+
+    public function paginate(?int $perPage = 15): LengthAwarePaginator
+    {
+        return ClusterModel::paginate($perPage)
+            ->through(fn ($model) => $this->mapToEntity($model));
     }
 
     public function find(int $id): ?Cluster

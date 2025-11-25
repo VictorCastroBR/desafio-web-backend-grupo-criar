@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Eloquent\Repositories;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Domain\State\Entities\State;
 use App\Domain\State\Repositories\StateRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\Models\StateModel;
@@ -21,11 +22,10 @@ class EloquentStateRepository implements StateRepositoryInterface
         return $model ? $this->mapToEntity($model) : null;
     }
 
-    public function paginate(int $perPage = 15): array
+    public function paginate(int $perPage = 15): LengthAwarePaginator
     {
         return StateModel::paginate($perPage)
-            ->map(fn ($model) => $this->mapToEntity($model))
-            ->toArray();
+            ->through(fn ($model) => $this->mapToEntity($model));
     }
 
     public function create(array $data): State

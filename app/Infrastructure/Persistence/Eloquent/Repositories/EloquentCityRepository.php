@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Eloquent\Repositories;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Domain\City\Entities\City;
 use App\Domain\City\Repositories\CityRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\Models\CityModel;
@@ -17,11 +18,10 @@ class EloquentCityRepository implements CityRepositoryInterface
             ->toArray();
     }
 
-    public function paginate(?int $perPage = 15): array
+    public function paginate(?int $perPage = 15): LengthAwarePaginator
     {
         return CityModel::paginate($perPage)
-            ->map(fn ($model) => $this->mapToEntity($model))
-            ->toArray();
+            ->through(fn ($model) => $this->mapToEntity($model));
     }
 
     public function find(int $id): ?City

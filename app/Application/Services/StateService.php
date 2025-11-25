@@ -2,6 +2,7 @@
 
 namespace App\Application\Services;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Domain\State\Entities\State;
 use App\Domain\State\Repositories\StateRepositoryInterface;
 
@@ -16,7 +17,7 @@ class StateService
         return $this->stateRepository->all();
     }
 
-    public function getPaginatedStates(?int $perPage = 15): array
+    public function getPaginatedStates(?int $perPage = 15): LengthAwarePaginator
     {
         return $this->stateRepository->paginate($perPage);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Application\Services;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Domain\Product\Entities\Product;
 use App\Domain\Product\Repositories\ProductRepositoryInterface;
 
@@ -16,7 +17,7 @@ class ProductService
         return $this->productRepository->all();
     }
 
-    public function getPaginatedProducts(?int $perPage = 15): array
+    public function getPaginatedProducts(?int $perPage = 15): LengthAwarePaginator
     {
         return $this->productRepository->paginate($perPage);
     }
