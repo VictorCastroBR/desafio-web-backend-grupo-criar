@@ -1,59 +1,225 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Desafio WEB Backend - Grupo CRIAR
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+API RESTful desenvolvida em Laravel para gerenciar estados, cidades, clusters, campanhas, descontos e produtos.
 
-## About Laravel
+## Tecnologias
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+* **Linguagem:** PHP 8.2
+* **Framework:** Laravel 12
+* **Banco de Dados:** MySQL 8.0
+* **Servidor Web:** Nginx
+* **Ambiente:** Docker & Docker Compose
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Arquitetura
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Projeto estruturado seguindo princípios de **Domain-Driven Design (DDD)** e **Clean Architecture**:
 
-## Learning Laravel
+* **Domain:** Entidades e interfaces de repositório (livre de framework)
+* **Application:** Services com lógica de negócio
+* **Infrastructure:** Implementações de repositório (Eloquent)
+* **HTTP:** Controllers, Form Requests e API Resources
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+**Padrões aplicados:**
+* Repository Pattern com interfaces
+* Dependency Injection via Service Container
+* Validação com Form Requests
+* Formatação de resposta com API Resources
+* Imutabilidade nas entidades de domínio
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Instalação e Execução
 
-## Laravel Sponsors
+**1. Clone o repositório**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+git clone https://github.com/VictorCastroBR/desafio-web-backend-grupo-criar.git
+cd desafio-web-backend-grupo-criar
+```
 
-### Premium Partners
+**2. Suba os containers**
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+docker-compose up -d --build
+```
 
-## Contributing
+**3. Instale as dependências**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+docker-compose exec app composer install
+```
 
-## Code of Conduct
+**4. Configure o ambiente**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+docker-compose exec app cp .env.example .env
+docker-compose exec app php artisan key:generate
+```
 
-## Security Vulnerabilities
+**5. Execute as migrations**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+docker-compose exec app php artisan migrate
+```
 
-## License
+**Pronto!** A API está rodando em: **http://localhost:8080/api/v1**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## Executar Testes
+
+```bash
+docker-compose exec app php artisan test
+```
+
+---
+
+## Endpoints da API
+
+**URL Base:** `http://localhost:8080/api/v1`
+
+**Paginação opcional:** Adicione `?paginate=true&per_page=15` em endpoints de listagem.
+
+### Estados
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| `GET` | `/states` | Listar todos |
+| `POST` | `/states` | Criar |
+| `GET` | `/states/{id}` | Buscar por ID |
+| `PUT` | `/states/{id}` | Atualizar |
+| `DELETE` | `/states/{id}` | Excluir |
+
+**Corpo da requisição (POST/PUT):**
+```json
+{
+    "name": "São Paulo",
+    "uf": "SP"
+}
+```
+
+### Cidades
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| `GET` | `/cities` | Listar todas |
+| `POST` | `/cities` | Criar |
+| `GET` | `/cities/{id}` | Buscar por ID |
+| `PUT` | `/cities/{id}` | Atualizar |
+| `DELETE` | `/cities/{id}` | Excluir |
+
+**Corpo da requisição (POST/PUT):**
+```json
+{
+  "name": "Ribeirão Preto",
+  "state_id": 1,
+  "cluster_id": 1
+}
+```
+
+### Clusters (Grupos de Cidades)
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| `GET` | `/clusters` | Listar todos |
+| `POST` | `/clusters` | Criar |
+| `GET` | `/clusters/{id}` | Buscar por ID |
+| `PUT` | `/clusters/{id}` | Atualizar |
+| `DELETE` | `/clusters/{id}` | Excluir |
+
+**Corpo da requisição (POST/PUT):**
+```json
+{
+    "name": "Sudeste"
+}
+```
+
+### Campanhas
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| `GET` | `/campaigns` | Listar todas |
+| `POST` | `/campaigns` | Criar |
+| `GET` | `/campaigns/{id}` | Buscar por ID |
+| `PUT` | `/campaigns/{id}` | Atualizar |
+| `DELETE` | `/campaigns/{id}` | Excluir |
+
+**Corpo da requisição (POST/PUT):**
+```json
+{
+  "name": "Black Friday 2025",
+  "active": true,
+  "cluster_id": 1
+}
+```
+
+**Regra de negócio:** Apenas uma campanha ativa por cluster. Ao ativar uma nova, as outras do mesmo cluster são desativadas automaticamente.
+
+### Descontos
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| `GET` | `/discounts` | Listar todos |
+| `POST` | `/discounts` | Criar |
+| `GET` | `/discounts/{id}` | Buscar por ID |
+| `PUT` | `/discounts/{id}` | Atualizar |
+| `DELETE` | `/discounts/{id}` | Excluir |
+
+**Corpo da requisição (POST/PUT):**
+```json
+{
+  "value": 50.00,
+  "percent": null,
+  "campaign_id": 1
+}
+```
+
+**Regra de negócio:** Desconto deve ter **valor OU percentual**, nunca ambos simultaneamente.
+
+### Produtos
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| `GET` | `/products` | Listar todos |
+| `POST` | `/products` | Criar |
+| `GET` | `/products/{id}` | Buscar por ID |
+| `PUT` | `/products/{id}` | Atualizar |
+| `DELETE` | `/products/{id}` | Excluir |
+
+**Corpo da requisição (POST/PUT):**
+```json
+{
+  "name": "Notebook Dell",
+  "price": 3500.00
+}
+```
+
+---
+
+## Estrutura do Projeto
+
+```
+app/
+├── Application/Services/      # Lógica de negócio
+├── Domain/                    # Entidades e interfaces
+│   ├── Campaign/
+│   ├── City/
+│   ├── Cluster/
+│   ├── Discount/
+│   ├── Product/
+│   └── State/
+├── Http/                      # Camada de apresentação
+│   ├── Controllers/
+│   ├── Requests/              # Validação
+│   └── Resources/             # Formatação JSON
+└── Infrastructure/            # Implementações
+    └── Persistence/Eloquent/
+```
+
+---
+
+## Decisões Técnicas
+
+* **Entidades imutáveis:** Uso de `readonly` properties (PHP 8.2+)
+* **Separação clara:** Domain não conhece framework
+* **Versionamento de API:** Prefixo `/v1` para facilitar evolução
+* **Testes:** Cobertura de repositórios e regras de negócio críticas
+* **Docker:** Ambiente isolado e replicável
